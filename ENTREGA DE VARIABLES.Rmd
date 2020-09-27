@@ -1,0 +1,220 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# PRIMERA ENTREGA (ISAURA SÁNCHEZ )
+
+# LIBRERIAS 
+```{r}
+library(htmltab)
+library(stringr)
+library(readr)   
+library(rio)
+```
+# IMPORTAR DATA PARA LA VARIABLE DESIGUALDAD DE INGRESOS (GINI)
+```{r}
+linkgini = "https://github.com/isaurayamile/TRABAJO-ESTADISTICA/raw/master/Desigualdad%20de%20ingresos%2C%20coeficiente%20de%20Gini%20(1).csv"
+
+GINI = import(linkgini)
+```
+
+# LIMPIEZA PARA LA VARIABLE DESIGUALDAD DE INGRESOS (GINI)
+```{r}
+names(GINI)
+str(GINI)
+
+GINI [,c(3:28)] = NULL 
+GINI [,c(4,5)] = NULL 
+GINI= GINI [-1,]
+GINI [,1] = NULL 
+GINI= GINI[-c(196:212),]
+
+names(GINI) = c("Pais","GINI2016") #cambio de nombres 
+
+#Cambio de nombres para estandarizarlos y poder hacer el merge
+
+GINI$Pais=  gsub("AfganistÃ¡n", "Afghanistan", GINI$Pais)
+GINI$Pais=  gsub("CÃ´te d'Ivoire", "Cote d'Ivoire" , GINI$Pais)
+GINI[GINI$Pais=="Bolivia (Plurinational State of)",'Pais']= "Bolivia"
+GINI[GINI$Pais=="Eswatini (Kingdom of)",'Pais']= "Eswatini" 
+GINI[GINI$Pais=="Guinea-Bissau",'Pais']= "Guinea Bissau"
+GINI[GINI$Pais=="Hong Kong, China (SAR)",'Pais']= "Hong Kong"
+GINI[GINI$Pais=="Iran (Islamic Republic of)",'Pais']= "Iran"
+GINI[GINI$Pais=="Korea (Republic of)",'Pais']= "Korea, South"
+GINI[GINI$Pais=="Korea (Democratic People's Rep. of)",'Pais']= "Korea, North"
+GINI[GINI$Pais=="Lao People's Democratic Republic",'Pais']= "Laos"
+GINI[GINI$Pais=="Moldova (Republic of)",'Pais'] = "Maldova"
+GINI[GINI$Pais=="Tanzania (United Republic of)",'Pais']= "Tanzania" 
+GINI[GINI$Pais=="Venezuela (Bolivarian Republic of)" ,'Pais']= "Venezuela"
+GINI[GINI$Pais=="Viet Nam", 'Pais' ]="Vietnam"
+GINI[GINI$Pais== "Congo (Democratic Republic of the)" , 'Pais'] = "Democratic Republic of the Congo"
+GINI[GINI$Pais=="United States",'Pais']="United States of America" 
+GINI[GINI$Pais=="Czechia",'Pais']="Czech Republic" 
+GINI[GINI$Pais=="Russian Federation",'Pais']="Russia" 
+GINI[GINI$Pais=="Argelia",'Pais']="Algeria"
+GINI[GINI$Pais=="Syrian Arab Republic",'Pais']="Syria"
+GINI[GINI$Pais=="Maldova",'Pais']="Moldova"
+
+#OBSERVAR DATA 
+summary(GINI)
+
+#RECODIFICACIÓN DE VARIABLES 
+GINI$GINI2016= gsub(",",".", GINI$GINI2016)
+GINI$GINI2016=as.numeric(GINI$GINI2016)
+
+#ORDENAR DATA 
+GINI$num2=c(1:195)
+GINI$num2=as.numeric(GINI$num2)
+row.names(GINI)=GINI$num2
+GINI$num2=NULL
+
+#Ver casos duplicados e incompletos 
+GINI[duplicated(GINI$Pais),]
+GINI[!complete.cases(GINI),]
+
+
+
+```
+
+# IMPORTAR DATA PARA LA VARIABLE DE ACCOUNTABILITY
+
+```{r}
+linkAccountability = "https://github.com/isaurayamile/TRABAJO-ESTADISTICA/raw/master/Data_Extract_From_Worldwide_Governance_Indicators%20(1).xlsx"
+Account = import(linkAccountability)
+```
+
+# LIMPIEZA PARA LA VARIABLE DE ACCOUNTABILITY
+
+```{r}
+names(Account)
+str(Account)
+
+Account [,c(2:4)] = NULL #ELIMINAR COLUMNAS
+Account= Account[-c(215:219),]#ELIMINAR FILAS
+
+names(Account) = c("Pais","Account2016")  #CAMBIO DE NOMBRES
+
+
+summary(Account)
+
+#Cambio de nombres para estandarizarlos y poder hacer el merge
+Account[Account$Pais=="Czechia",'Pais']="Czech Republic" 
+Account[Account$Pais=="Hong Kong SAR, China",'Pais']="Hong Kong" 
+Account[Account$Pais=="Iran, Islamic Rep.",'Pais']="Iran" 
+Account[Account$Pais=="Guinea-Bissau",'Pais']="Guinea Bissau" 
+Account[Account$Pais=="Lao PDR",'Pais']="Laos" 
+Account[Account$Pais=="Korea, Dem. People’s Rep.",'Pais']="Korea, North" 
+Account[Account$Pais=="Korea, Rep.",'Pais']="Korea, South" 
+Account[Account$Pais=="United States",'Pais']="United States of America" 
+Account[Account$Pais=="Bahamas, The",'Pais']="Bahamas" 
+Account[Account$Pais=="Congo, Dem. Rep.",'Pais']="Democratic Republic of the Congo" 
+Account[Account$Pais=="Congo, Rep.",'Pais']="Congo" 
+Account[Account$Pais=="Egypt, Arab Rep.",'Pais']="Egypt" 
+Account[Account$Pais=="Russian Federation",'Pais']="Russia" 
+Account[Account$Pais=="Kyrgyz Republic",'Pais']="Kyrgyzstan" 
+Account[Account$Pais=="Gambia, The",'Pais']="Gambia" 
+Account[Account$Pais=="Slovak Republic",'Pais']="Slovakia" 
+Account[Account$Pais=="St. Lucia",'Pais']="Saint Lucia"
+Account[Account$Pais=="St. Vincent and the Grenadines",'Pais']="Saint Vincent and the Grenadines"  
+Account[Account$Pais=="Yemen, Rep.",'Pais']="Yemen" 
+Account[Account$Pais=="Venezuela, RB",'Pais']="Venezuela" 
+Account[Account$Pais=="Syrian Arab Republic",'Pais']="Syria"
+Account[Account$Pais=="Taiwan, China",'Pais']="Taiwan"
+Account[Account$Pais=="Taiwan, China",'Pais']="Taiwan"
+
+
+#RECODIFICACIÓN DE VARIABLES 
+Account$Account2016=as.numeric(Account$Account2016)
+#ORDENAR DATA 
+Account$num3=c(1:214)
+Account$num3=as.numeric(Account$num3)
+row.names(Account)=Account$num3
+Account$num3=NULL
+Account= Account[-159,] #fila para eliminar 
+
+Account$num3=c(1:213) #volver a ordenar (este paso se puede omitir)
+Account$num3=as.numeric(Account$num3)
+row.names(Account)=Account$num3
+Account$num3=NULL
+
+#Ver casos duplicados e incompletos 
+Account[duplicated(Account$Pais),]
+Account[!complete.cases(Account),]
+
+summary(Account)
+```
+
+#IMPORTAR DATA PARA LA VARIABLE DEPENDIENTE : IPC
+```{r}
+linkIPC = "https://github.com/isaurayamile/TRABAJO-ESTADISTICA/raw/master/CPI2019.xlsx"  
+ICP = import(linkIPC)
+
+names(ICP)
+str(ICP)
+
+#LIMPIEZA DE DATA DE LA VARIABLE DEPENDIENTE 
+ICP [,c(2:15)] = NULL  #ELIMINAR COLUMNAS
+ICP [,c(3:16)] = NULL  
+ICP= ICP [-(1:2),] #ELIMINAR FILAS 
+
+#ORDENAR DATA 
+ICP$num=c(1:180)
+ICP$num=as.numeric(ICP$num)
+row.names(ICP)=ICP$num
+ICP$num=NULL
+
+#ELIMINAR FILAS 
+ICP= ICP[-27,]
+ICP= ICP[-64,]
+ICP= ICP[-111,]
+ICP= ICP[-171,]
+
+names(ICP) = c("Pais","CPI2016")  #CAMBIO DE NOMBRES 
+
+#VER CASOS DUPLICADOS E INCOMPLETOS
+ICP[duplicated(ICP$Pais),]
+ICP[!complete.cases(ICP),]
+
+#ORDENAR DATA 
+ICP$num=c(1:176)
+ICP$num=as.numeric(ICP$num)
+row.names(ICP)=ICP$num
+ICP$num=NULL
+
+```
+
+
+#MERGE
+##Estos merge se utilizaron para poder estandarizar los nombres de los páises de las variables independientes con la variable dependiente 
+
+#Merge de ICP con GINI
+```{r}
+names(ICP)
+names(GINI)
+
+total2=merge(ICP,GINI,all.x=T,all.y=T) 
+total2[duplicated(total2$Pais),]
+total2[!complete.cases(total2),]
+
+
+total1=merge(ICP,GINI,by.x='Pais', by.y='Pais') #para comprobar 
+
+```
+```
+#MERGE DE ICP CON ACCOUNT 
+
+```{r}
+names(ICP)
+names(Account)
+
+total3=merge(ICP,Account,all.x=T,all.y=T)
+total3[duplicated(total3$Pais),]
+total3[!complete.cases(total3),]
+
+
+total4=merge(ICP,Account,by.x='Pais', by.y='Pais') # para comprobar 
+
+```
+
+#Lo que se observaba en los casos incompletos o duplicados se trabaja en las datas de procedencia. 
