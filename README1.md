@@ -2,8 +2,10 @@
 
 Isaura Sánchez Curioso (20180893)
 
-En el presente repositorio se encuentran las bases  de las datas originales tanto de las dos variables dependientes como  de la independiente, las cuales se encuentran en formato excel. 
-Por otro lado, s e encuentra un RMD "corrupción", el cual se ha subido para que los otros integrantes del grupo puedan tener la data limpia del Índice de Percepción de Corrupción y así puedan realizar el merge con sus variables independientes 
+En el presente repositorio se encuentran las bases  de las datas originales tanto de las dos variables dependientes como  de la independiente, las cuales se encuentran en formato excel.
+
+Por otro lado, s e encuentra un RMD "corrupción", el cual se ha subido para que los otros integrantes del grupo puedan tener la data limpia del Índice de Percepción de Corrupción y así puedan realizar el merge con sus variables independientes
+
 El objetivo de aquuello es estandarizar los nombres de los países para el trabajo de investigación. 
 Asimismo, en  el RMD "Entrega de variables" se procesan las bases de las variables independientes GINI y Account. En estas se realiza la limpieza y las modificaciones correspondientes. 
 El resultado final son datas que solo contienen los países y los datos en relación al  2016. 
