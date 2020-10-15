@@ -193,7 +193,7 @@ ICP$num=NULL
 names(ICP)
 names(GINI)
 
-total2=merge(ICP,GINI,all.x=T,all.y=T) 
+total2=merge(ICP,GINI,all.x=T,all.y=T)  
 total2[duplicated(total2$Pais),]
 total2[!complete.cases(total2),]
 
@@ -218,3 +218,16 @@ total4=merge(ICP,Account,by.x='Pais', by.y='Pais') # para comprobar
 ```
 
 #Lo que se observaba en los casos incompletos o duplicados se trabaja en las datas de procedencia. 
+
+
+```{r}
+
+basegeneral=merge(GINI, Account,all.x=T,all.y=T)
+basegeneral=na.omit(basegeneral)
+
+
+```
+
+
+
+
