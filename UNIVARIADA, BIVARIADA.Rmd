@@ -1,0 +1,157 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+#ANALÍSIS UNIVARIADO DE LA VARIABLE ACCOUNT 
+```{r}
+
+library(e1071)
+
+Corrup2$Account2016=as.numeric(Corrup2$Account2016)
+#medidas de tendencia central 
+summary(Corrup2$Account2016)
+mode(Corrup2$Account2016)
+median(Corrup2$Account2016)
+mean(Corrup2$Account2016)
+
+
+#GRÁFICOS
+hist(Corrup2$Account2016)
+boxplot(Corrup2$Account2016)
+boxplot(Corrup2$Account2016, main="Boxplot", col="Yellow", ylab="Accountability")
+
+#medidas de dispersión
+sd(Corrup2$Account2016) #desviación
+var(Corrup2$Account2016) #varianza
+skewness(Corrup2$Account2016) #asimetría
+kurtosis(Corrup2$Account2016) #curtosis 
+rango=max(Corrup2$Account2016)-min(Corrup2$Account2016) #Rango
+rango
+quantile(Corrup2$Account2016) #cuartiles
+IQR=IQR(Corrup2$Account2016) #Rango Intercuartil
+IQR
+outliers <- boxplot(Corrup2$Account2016)$out #valores atipicos
+outliers
+
+
+```
+```
+#ANALISIS BIVARIADO 
+```{r}
+plot(Corrup2$CPI2016.x, Corrup2$Account2016)
+plot(Corrup2$CPI2016.x, Corrup2$Account2016, 
+     main="Relación entre CPI y Accountability ", 
+     xlab="CPI", 
+     ylab="Accountability")
+
+cor.test(Corrup2$CPI2016.x, Corrup2$Account2016)
+modelo1=lm(CPI2016.x~Account2016,data=Corrup2)
+summary(modelo1)
+```
+
+#ANALISIS UNIVARIADO DE LA VARIABLE GINI
+```{r}
+Corrup2$Account2016=as.numeric(Corrup2$GINI2016)
+#medidas de tendencia central 
+summary(Corrup2$GINI2016)
+mode(Corrup2$GINI2016)
+median(Corrup2$GINI2016)
+mean(Corrup2$GINI2016)
+
+#medidas de dispersión 
+sd(Corrup2$GINI2016)
+var(Corrup2$GINI2016)
+skewness(Corrup2$GINI2016)
+kurtosis(Corrup2$GINI2016)
+rango=max(Corrup2$GINI2016)-min(Corrup2$GINI2016) #Rango
+rango
+quantile(Corrup2$GINI2016) #cuartiles
+IQR=IQR(Corrup2$GINI2016) #Rango Intercuartil
+IQR
+outliers <- boxplot(Corrup2$GINI2016)$out #valores atipicos
+outliers
+
+#Gráficos
+hist(Corrup2$GINI2016)
+boxplot(Corrup2$GINI2016)
+boxplot(Corrup2$GINI2016, main="Boxplot", col="Pink", ylab="GINI")
+
+```
+#Análisis bivariado entre cpi e gini 
+```{r}
+plot(Corrup2$CPI2016.x, Corrup2$GINI2016)
+plot(Corrup2$CPI2016.x, Corrup2$GINI2016, 
+     main="Relación entre CPI y GINI ", 
+     xlab="CPI", 
+     ylab="GINI")
+
+cor.test(Corrup2$CPI2016.x, Corrup2$GINI2016)
+modelo2=lm(CPI2016.x~GINI2016,data=Corrup2)
+summary(modelo2)
+
+```
+
+
+#BIVARIADA-INDICADOR
+```{r}
+library(haven)
+#factores politicos
+Corrup2$politicos=Corrup2$Account2016 + Corrup2$`Rule of law` + Corrup2$Efec2016
+summary(Corrup2$politicos)
+mean(Corrup2$politicos)
+sd(Corrup2$politicos)
+
+plot(Corrup2$CPI2016.x, Corrup2$politicos)
+plot(Corrup2$CPI2016.x, Corrup2$politicos, 
+     main="Relación entre CPI y f.politicos ", 
+     xlab="CPI", 
+     ylab="f.politicos")
+
+cor.test(Corrup2$CPI2016.x, Corrup2$politicos)
+modelo2=lm(CPI2016.x~politicos,data=Corrup2)
+summary(modelopoliticos)
+
+
+#factores sociales
+Corrup2$sociales=Corrup2$Des2016 + Corrup2$GINI2016
+summary(Corrup2$sociales)
+mean(Corrup2$sociales)
+sd(Corrup2$sociales)
+plot(Corrup2$CPI2016.x, Corrup2$sociales)
+plot(Corrup2$CPI2016.x, Corrup2$sociales, 
+     main="Relación entre CPI y f.sociales ", 
+     xlab="CPI", 
+     ylab="f.sociales")
+
+cor.test(Corrup2$CPI2016.x, Corrup2$sociales)
+modelo2=lm(CPI2016.x~sociales,data=Corrup2)
+summary(modelosociales)
+
+
+
+#factores economicos
+Corrup2$economicos=Corrup2$Alfab + Corrup2$CHE
+summary(Corrup2$economicos)
+mean(Corrup2$economicos)
+sd(Corrup2$economicos)
+
+
+plot(Corrup2$CPI2016.x, Corrup2$economicos)
+plot(Corrup2$CPI2016.x, Corrup2$economicos, 
+     main="Relación entre CPI y f.economicos ", 
+     xlab="CPI", 
+     ylab="f.economicos")
+
+cor.test(Corrup2$CPI2016.x, Corrup2$economicos)
+modelo2=lm(CPI2016.x~economicos,data=Corrup2)
+summary(modeloeconomicos)
+
+
+
+
+
+
+
+
+```
+
