@@ -14,66 +14,28 @@ library(rio)
 ```
 # IMPORTAR DATA PARA LA VARIABLE DESIGUALDAD DE INGRESOS (GINI)
 ```{r}
-linkgini = "https://github.com/isaurayamile/TRABAJO-ESTADISTICA/raw/master/Desigualdad%20de%20ingresos%2C%20coeficiente%20de%20Gini%20(1).csv"
-
+linkgini = "https://github.com/isaurayamile/TRABAJO-ESTADISTICA/raw/master/GINI%202016%20DATA%20INDEX.xlsx?raw=true"
 GINI = import(linkgini)
-```
 
 # LIMPIEZA PARA LA VARIABLE DESIGUALDAD DE INGRESOS (GINI)
 ```{r}
 names(GINI)
 str(GINI)
-
-GINI [,c(3:28)] = NULL 
-GINI [,c(4,5)] = NULL 
-GINI= GINI [-1,]
-GINI [,1] = NULL 
-GINI= GINI[-c(196:212),]
-
+GINI [,3] = NULL 
 names(GINI) = c("Pais","GINI2016") #cambio de nombres 
-
-#Cambio de nombres para estandarizarlos y poder hacer el merge
-
-GINI$Pais=  gsub("AfganistÃ¡n", "Afghanistan", GINI$Pais)
-GINI$Pais=  gsub("CÃ´te d'Ivoire", "Cote d'Ivoire" , GINI$Pais)
-GINI[GINI$Pais=="Bolivia (Plurinational State of)",'Pais']= "Bolivia"
-GINI[GINI$Pais=="Eswatini (Kingdom of)",'Pais']= "Eswatini" 
-GINI[GINI$Pais=="Guinea-Bissau",'Pais']= "Guinea Bissau"
-GINI[GINI$Pais=="Hong Kong, China (SAR)",'Pais']= "Hong Kong"
-GINI[GINI$Pais=="Iran (Islamic Republic of)",'Pais']= "Iran"
-GINI[GINI$Pais=="Korea (Republic of)",'Pais']= "Korea, South"
-GINI[GINI$Pais=="Korea (Democratic People's Rep. of)",'Pais']= "Korea, North"
-GINI[GINI$Pais=="Lao People's Democratic Republic",'Pais']= "Laos"
-GINI[GINI$Pais=="Moldova (Republic of)",'Pais'] = "Maldova"
-GINI[GINI$Pais=="Tanzania (United Republic of)",'Pais']= "Tanzania" 
-GINI[GINI$Pais=="Venezuela (Bolivarian Republic of)" ,'Pais']= "Venezuela"
-GINI[GINI$Pais=="Viet Nam", 'Pais' ]="Vietnam"
-GINI[GINI$Pais== "Congo (Democratic Republic of the)" , 'Pais'] = "Democratic Republic of the Congo"
-GINI[GINI$Pais=="United States",'Pais']="United States of America" 
-GINI[GINI$Pais=="Czechia",'Pais']="Czech Republic" 
-GINI[GINI$Pais=="Russian Federation",'Pais']="Russia" 
-GINI[GINI$Pais=="Argelia",'Pais']="Algeria"
-GINI[GINI$Pais=="Syrian Arab Republic",'Pais']="Syria"
-GINI[GINI$Pais=="Maldova",'Pais']="Moldova"
 
 #OBSERVAR DATA 
 summary(GINI)
-
 #RECODIFICACIÓN DE VARIABLES 
-GINI$GINI2016= gsub(",",".", GINI$GINI2016)
 GINI$GINI2016=as.numeric(GINI$GINI2016)
-
 #ORDENAR DATA 
-GINI$num2=c(1:195)
+GINI$num2=c(1:106)
 GINI$num2=as.numeric(GINI$num2)
 row.names(GINI)=GINI$num2
 GINI$num2=NULL
-
 #Ver casos duplicados e incompletos 
 GINI[duplicated(GINI$Pais),]
 GINI[!complete.cases(GINI),]
-
-
 
 ```
 
@@ -225,7 +187,10 @@ total4=merge(ICP,Account,by.x='Pais', by.y='Pais') # para comprobar
 basegeneral=merge(GINI, Account,all.x=T,all.y=T)
 basegeneral=na.omit(basegeneral)
 
-
+basegeneral$num2=c(1:101)
+basegeneral$num2=as.numeric(basegeneral$num2)
+row.names(basegeneral)=basegeneral$num2
+basegeneral$num2=NULL
 ```
 
 
